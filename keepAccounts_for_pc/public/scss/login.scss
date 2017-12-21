@@ -11,6 +11,7 @@ html{
 	font-size:18px;
 }
 #login{
+	border-radius: 8px;
 	padding-bottom: 20px;
 	width: 300px;
 	height:500px;
@@ -23,7 +24,7 @@ html{
 	margin-top: -200px;
 	color: #fff;
  	>div{
- 		padding:20px 20px 0 20px;
+ 		padding:20px 20px 5px 20px;
  	}
  	>p.tip{
 		height:25px;
@@ -33,9 +34,22 @@ html{
  	}
  	.left{
  		float: left;
+ 		display: flex;
+ 		height:30px;
+ 		align-items:center;
+ 		margin-bottom:0;
+ 	}
+ 	#remberme{
+ 		margin-top:0;
+ 	}
+ 	label{
+ 		margin-bottom:0;
  	}
  	.right{
  		float:right;
+ 		height:30px;
+ 		line-height:30px;
+ 		margin-bottom:0;
  	}
  	#login_bth{
  		width:100%;
