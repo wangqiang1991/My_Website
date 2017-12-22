@@ -1,7 +1,7 @@
 var gulp = require('gulp');   // gulp
 var rename = require('gulp-rename'); //重命名  
 var concat = require('gulp-concat'); //合并文件
-var babel = require("gulp-babel");  // gulp babel 转码
+var babel = require('gulp-babel');  // gulp babel 转码
 var uglify = require('gulp-uglify'); // js 压缩
 var sass = require('gulp-sass');  // sass
 var minifycss = require('gulp-minify-css'); // css压缩
