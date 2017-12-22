@@ -11,7 +11,7 @@ var imagemin = require('gulp-imagemin'); //图片压缩
 gulp.task('script', function() {
     gulp.src('./public/js/*.js')
     .pipe(babel({  
-            presets: ['es2015']  
+            presets: ['env']  
         }))							//es6转es5
     .pipe(concat('main.js'))        // 合并    
     .pipe(uglify())                 // 压缩
