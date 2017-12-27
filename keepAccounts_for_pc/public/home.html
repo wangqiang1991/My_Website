@@ -23,18 +23,49 @@
 			<span>退出</span>
 		 </ul>
 		</nav>
+
+
 		<div class="input_money">
-			
+			<p class="title">当前时间:2017-12-27</p>
+			<div class="btn-group" data-toggle="buttons">
+			  <label class="btn btn-default active" style="border-radius: 4px 0 0 4px;">
+			    <input type="radio"> 支出
+			  </label>
+			  <label class="btn btn-default">
+			    <input type="radio"> 收入
+			  </label>
+			</div>
+			<div class="input-group">
+	  			<span class="input-group-addon">
+					备注
+	  			</span>
+	            <input type="text" class="form-control" placeholder="填写备注信息" aria-describedby="basic-addon1">
+			</div>
+			<p class="tip">错误</p>
+			<div class="input-group">
+	  			<span class="input-group-addon">
+					金额
+	  			</span>
+	            <input type="number" class="form-control" placeholder="填写账单金额" aria-describedby="basic-addon1">
+			</div>
+			<p class="tip">错误</p>
+
+		   <div class="input-group" style="width: 100%;">
+			 <button type="button" class="btn btn-default" style="float: left;">取消</button>
+			 <button type="button" class="btn btn-primary" style="float: right;">确定</button>
+			</div>  
 		</div>
+
+
 		<div class="add_account">
 			<span>表格展示</span>
-			<img src="http://p1krs1tfn.bkt.clouddn.com/money_icon.png" alt="add_account">
+			<img src="http://p1krs1tfn.bkt.clouddn.com/money_icon.png" alt="add_account" id="showInput">
 			<span>图表展示</span>
 		</div>
 		
 	</div>
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<script src=''></script>
+	<script src='./dist/main.min.js'></script>
 </body>
 </html>

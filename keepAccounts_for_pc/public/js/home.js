@@ -1,3 +1,3 @@
-let b = ()=>{
-	console.log(13)
-}
+$('#showInput').click(()=>{
+	$('.input_money').addClass('showInput')
+})
