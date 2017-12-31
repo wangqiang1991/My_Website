@@ -1,0 +1,27 @@
+#home{
+
+	#contact{
+		background: #2d3a4b;
+		p{
+			padding-top: 10px;
+			color: #fff;
+		}
+		p.tip{
+			padding-top:0;
+			margin-bottom:0;
+			padding-left: 10px;
+			color:#ff6d6d;
+			height: 20px;
+		}
+		textarea{
+			resize:none;
+			margin-left:10px;
+		}
+		#submit{
+			width:100px;
+			margin-left: 10px;
+		}
+		
+	}
+
+}
