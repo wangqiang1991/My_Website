@@ -2,9 +2,20 @@
 	padding-right:0 !important;
 }
 #home{
+	.earn{
+			color:green;
+	}
+	.pay{
+		color:red;
+	}
 	.tip{
 		color:#ff6d6d;
 		height:20px;
+	}
+	#noData{
+		width:100%;
+		text-align:center;
+		color:#ff6d6d;
 	}
 	.navbar{
 		margin-bottom: 0;
@@ -120,6 +131,7 @@
       transform: translateY(0);
 	}
 	#table{
+		
 		>div{
 			overflow: hidden;
 			width:100%;

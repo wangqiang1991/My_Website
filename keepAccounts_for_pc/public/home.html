@@ -28,14 +28,15 @@
 		<!-- 金额录入div -->	
 		<div class="input_money">
 			<p class="title" id="time">当前时间:2017-12-27</p>
-			<div class="btn-group" data-toggle="buttons" id="payorget">
-			  <label class="btn btn-default active" style="border-radius: 4px 0 0 4px;">
+			<div class="btn-group" data-toggle="buttons" id="payorget" style="margin-bottom: 5px;">
+			  <label class="btn btn-default" style="border-radius: 4px 0 0 4px;">
 			    <input type="radio" value="-1"> 支出
 			  </label>
 			  <label class="btn btn-default">
 			    <input type="radio" value="1"> 收入
 			  </label>
 			</div>
+			<p class="tip typetip"></p>
 			<div class="input-group">
 	  			<span class="input-group-addon">
 					备注
@@ -76,7 +77,6 @@
 				  	<option value="2027">2027年</option>
 				  </select>
 				   <select id="month">
-				   	<option value=""></option>
 				  	<option value="1">1月</option>
 				  	<option value="2">2月</option>
 				  	<option value="3">3月</option>
@@ -126,8 +126,8 @@
 				  </select>
 				<button type="button" class="btn btn-primary" id="search">查询</button>	
 				</p>
-			    <p >年度消费:<span>45613</span></p>		
-				<p >月季消费:<span>123</span></p>
+			    <p >年度消费: <span id="yaerPay">0</span></p>		
+				<p >月季消费: <span id="monthPay">0</span></p>
 				<p class="add_img"><img src="http://p1krs1tfn.bkt.clouddn.com/money_icon.png" alt="add_account" id="showInput"></p>
 		  	</div>
 		    <thead>
@@ -137,93 +137,18 @@
 		        <th>详细</th>
 		       </tr>
 		    </thead>
-		    <tbody>
-		      <tr>
+		    <tbody id="tableData">
+		      <!-- <tr>
 		        <td>产品1</td>
 		        <td>23/11/2013</td>
-		        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">详细</button></td>
-		       </tr>
-		      <tr>
-		        <td>产品2</td>
-		        <td>10/11/2013</td>
-		        <td>发货中</td>
-		       </tr>
-		      <tr>
-		        <td>产品3</td>
-		        <td>20/10/2013</td>
-		        <td>待确认</td>
-		       </tr>
-		      <tr>
-		        <td>产品4</td>
-		        <td>20/10/2013</td>
-		        <td>已退货</td>
-		       </tr>
-		       <tr>
-		        <td>产品1</td>
-		        <td>23/11/2013</td>
-		        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">详细</button></td>
-		       </tr>
-		      <tr>
-		        <td>产品2</td>
-		        <td>10/11/2013</td>
-		        <td>发货中</td>
-		       </tr>
-		      <tr>
-		        <td>产品3</td>
-		        <td>20/10/2013</td>
-		        <td>待确认</td>
-		       </tr>
-		      <tr>
-		        <td>产品4</td>
-		        <td>20/10/2013</td>
-		        <td>已退货</td>
-		       </tr>
-		       <tr>
-		        <td>产品1</td>
-		        <td>23/11/2013</td>
-		        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">详细</button></td>
-		       </tr>
-		      <tr>
-		        <td>产品2</td>
-		        <td>10/11/2013</td>
-		        <td>发货中</td>
-		       </tr>
-		      <tr>
-		        <td>产品3</td>
-		        <td>20/10/2013</td>
-		        <td>待确认</td>
-		       </tr>
-		      <tr>
-		        <td>产品4</td>
-		        <td>20/10/2013</td>
-		        <td>已退货</td>
-		       </tr>
-		       <tr>
-		        <td>产品1</td>
-		        <td>23/11/2013</td>
-		        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">详细</button></td>
-		       </tr>
-		      <tr>
-		        <td>产品2</td>
-		        <td>10/11/2013</td>
-		        <td>发货中</td>
-		       </tr>
-		      <tr>
-		        <td>产品3</td>
-		        <td>20/10/2013</td>
-		        <td>待确认</td>
-		       </tr>
-		      <tr>
-		        <td>产品4</td>
-		        <td>20/10/2013</td>
-		        <td>已退货</td>
-		       </tr>
+		        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".Modal">详细</button></td>
+		       </tr> -->
 		    </tbody>
 		  </table>
 		</div>
 
 	<!-- 	详细modal -->
-		<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal fade Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -231,26 +156,17 @@
 		        <h4 class="modal-title" id="myModalLabel">账单详细</h4>
 		      </div>
 		      <div class="modal-body" style="padding: 0;">
-		      <table class="table" style="margin-bottom: 0;">
+		      <table  class="table" style="margin-bottom: 0;">
 				    <thead>
 				      <tr>
 				        <th>日期</th>
+				        <th>备注</th>
 				        <th>金额</th>
+				        <th>操作</th>
 				       </tr>
 				    </thead>
-				    <tbody>
-				    	<tr>
-					       <td>产品4</td>
-					       <td>20/10/2013</td>
-				       </tr>
-				       <tr>
-					       <td>产品4</td>
-					       <td><span>132</span></td>
-				       </tr>
-				       <tr>
-					       <td>产品4</td>
-					       <td>20/10/2013</td>
-				       </tr>
+				    <tbody id="detailTable">
+				    	
 				    </tbody>
 		        </table>
 		      </div>
