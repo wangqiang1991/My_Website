@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //引入dao层
-var indexDAO=require("../dao/indexDAO.js");
+var indexDAO=require("../dao/homeDao.js");
 
 //提交建议
 router.get("/contactme",function(req,res){
