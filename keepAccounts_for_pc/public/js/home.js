@@ -54,6 +54,9 @@ if(session_user == 'home' || session_user == 'contact'){
 			window.location.href = '/index.html';
 		}else{
 			userData = data;
+			let myDate=new Date();
+			let year = myDate.getFullYear();
+			let month = myDate.getMonth()+1;
 			findMonthMoney(year,month,data._id);
 		}
 	}
@@ -123,6 +126,9 @@ $('body').on('click','.delete',function(){
 		success:()=>{
 			//console.log(123);
 			$(this).parent().parent().remove();
+			let myDate=new Date();
+			let year = myDate.getFullYear();
+			let month = myDate.getMonth()+1;
 			findMonthMoney(year,month,userData._id);
 		}
 	})
@@ -278,6 +284,9 @@ $('#addmoney_btn').click(()=>{
 	let remark = $('#remark').val();
 	let money = +$('#money').val();
 	var d = new Date();
+	let year = d.getFullYear();
+	let month = d.getMonth()+1;
+	let day = d.getDate();
 	let time = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 	//console.log(time)
 	if(type == undefined){

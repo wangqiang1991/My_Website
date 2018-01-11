@@ -58,6 +58,7 @@ $('#login_bth').click(function(){
 		},
 		success:(type)=>{
 			if(type.status == 1){
+				$('.messageuser_tip').html('');
 				$('.messagepwd_tip').html('用户名或密码不正确');
 			}else{
 				if(remberme){

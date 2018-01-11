@@ -62,10 +62,11 @@ $('#regcompwd').change(function(){
 
 
 //注册
-$('#login_bth').click(function(){
+$('#reg_bth').click(function(){
 	//console.log(user.sure,password.sure,comfirmpwd.sure)
 
 	 if(user.sure && password.sure && comfirmpwd.sure){
+	 	//console.log(123)
 	 	$.ajax({
 	 		type:'post',
 	 		url:'/users/register',
