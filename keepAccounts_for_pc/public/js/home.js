@@ -104,9 +104,9 @@ $('body').on('click','.moneyDetail',function(){
 			for(var i=0;i<data.moneyData.length;i++){
 				var tr;
 				if(data.moneyData[i].money > 0){
-					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="earn">${data.moneyData[i].money}</span></td><td><button type="button" class="btn btn-primary delete" del_id="${data.moneyData[i]._id}">删除</button></td></tr>`
+					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="earn">${data.moneyData[i].money}</span></td></tr>`
 				}else{
-					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="pay">${data.moneyData[i].money}</span></td><td><button type="button" class="btn btn-primary delete" del_id="${data.moneyData[i]._id}">删除</button></td></tr>`
+					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="pay">${data.moneyData[i].money}</span></td></tr>`
 				}
 				$('#detailTable').append(tr)
 			}
