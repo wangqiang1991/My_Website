@@ -1,16 +1,16 @@
-//0.输入金额的按钮定位到坐下的位置不用图片用button按钮  1.后台多位小数问题，2.注释删除按钮，3.详情查询的优化直接在获取的数组里面匹配不要再去查询，4.月总计 总消费 总收入，
-//5.输入金额时也该用模态框来，6.输入备注时的一个常用词汇，7.注册登录的提示 在检查一遍，数据库的自启动，数据库的备份，
+//6.输入备注时的一个常用词汇，
+//7.注册登录的提示 在检查一遍，
+//8.数据库的自启动，数据库的备份，
+
+
 
 //展示金额录入框
 $('#showInput').click(()=>{
 	var date = new Date();
 	$('#time').html('当前时间:'+date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
-	$('.input_money').addClass('showInput');
+	//$('.input_money').addClass('showInput');
 })
-//关闭金额录入框
-$('#cancel_btn').click(()=>{
-	$('.input_money').removeClass('showInput')
-})
+
 //点击账单跳转
 $('#account').click(()=>{
 	window.location.href = '/home.html';
@@ -37,6 +37,7 @@ let myDate=new Date();
 let year = myDate.getFullYear();
 let month = myDate.getMonth()+1;
 let day = myDate.getDate();
+let moneyData = null;
 
 $('#year option[value='+year+']').attr("selected",true);
 $('#month option[value='+month+']').attr("selected",true);
@@ -92,29 +93,25 @@ $('#submit').click(function(){
 //查询详情
 $('body').on('click','.moneyDetail',function(){
 	$('#detailTable').html('')
-	var _time = $(this).attr('datatime');
-	var data = _time.split('-');
-	$.ajax({
-		type:'get',
-		url:'/index/findDayMoney',
-		data:{
-			year:data[0],
-			month:data[1],
-			day:data[2],
-			userId:userData._id
-		},
-		success:function(data){
-			for(var i=0;i<data.moneyData.length;i++){
-				var tr;
-				if(data.moneyData[i].money > 0){
-					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="earn">${data.moneyData[i].money}</span></td></tr>`
-				}else{
-					 tr = `<tr><td>${data.moneyData[i].year}-${data.moneyData[i].month}-${data.moneyData[i].day} ${data.moneyData[i].time}</td><td>${data.moneyData[i].remark}</td><td><span class="pay">${data.moneyData[i].money}</span></td></tr>`
-				}
-				$('#detailTable').append(tr)
-			}
+	var _time = $(this).attr('datatime').split('-');
+	var data = [];
+
+	for(var i = 0;i<moneyData.moneyData.length;i++){
+		if(_time[0] == moneyData.moneyData[i].year && _time[1] == moneyData.moneyData[i].month && _time[2] == moneyData.moneyData[i].day){
+			data.push(moneyData.moneyData[i]) 
 		}
-	})
+	}
+
+	for(var i=0;i<data.length;i++){
+		var tr;
+		if(data[i].money > 0){
+			 tr = `<tr><td>${data[i].year}-${data[i].month}-${data[i].day} ${data[i].time}</td><td>${data[i].remark}</td><td><span class="earn">${Number(data[i].money).toFixed(2)}</span></td></tr>`
+		}else{
+			 tr = `<tr><td>${data[i].year}-${data[i].month}-${data[i].day} ${data[i].time}</td><td>${data[i].remark}</td><td><span class="pay">${Number(data[i].money).toFixed(2)}</span></td></tr>`
+		}
+		$('#detailTable').append(tr)
+	}
+	
 })
 
 //详情里面的删除
@@ -153,19 +150,9 @@ $('#search').click(function(){
 			userId:userData._id
 		},
 		success:function(data){
-			$('#yaerPay').html(data.yaerMoney);
-			$('#monthPay').html(data.monthMOney)
-			if(data.yaerMoney>0){
-				$('#yaerPay').css({'color':'green'});
-			}else{
-				$('#yaerPay').css({'color':'red'});
-			}
+			moneyData = data;
 
-			if(data.monthMOney>0){
-				$('#monthPay').css({'color':'green'});
-			}else{
-				$('#monthPay').css({'color':'red'});
-			}
+			totalFn(data);
 
 			$('#tableData').html('');
 			if(data.moneyData.length == 0){
@@ -195,19 +182,9 @@ function findMonthMoney(year,month,userId){
 		},
 		success:(data)=>{
 			//console.log(data);
-			$('#yaerPay').html(data.yaerMoney);
-			$('#monthPay').html(data.monthMOney)
-			if(data.yaerMoney>0){
-				$('#yaerPay').css({'color':'green'});
-			}else{
-				$('#yaerPay').css({'color':'red'});
-			}
-
-			if(data.monthMOney>0){
-				$('#monthPay').css({'color':'green'});
-			}else{
-				$('#monthPay').css({'color':'red'});
-			}
+			moneyData = data;
+		
+			totalFn(data);
 
 			$('#tableData').html('');
 			if(data.moneyData.length == 0){
@@ -219,6 +196,33 @@ function findMonthMoney(year,month,userId){
 		}
 	})
 }
+
+//统计金额函数
+function totalFn (data){
+
+		$('#yaerPay').html(data.yaerMoney.toFixed(2));
+		$('#monthPay').html(data.monthMOney.toFixed(2))
+
+		$('#totalEarn').html(data.yearEarn.toFixed(2)).css({'color':'green'});
+		$('#totalPay').html(data.yearPay.toFixed(2)).css({'color':'red'});
+
+		$('#totalMEarn').html(data.monthEarn.toFixed(2)).css({'color':'green'});
+		$('#totalMPay').html(data.monthPay.toFixed(2)).css({'color':'red'});
+
+		if(data.yaerMoney>0){
+			$('#yaerPay').css({'color':'green'});
+		}else{
+			$('#yaerPay').css({'color':'red'});
+		}
+
+		if(data.monthMOney>0){
+			$('#monthPay').css({'color':'green'});
+		}else{
+			$('#monthPay').css({'color':'red'});
+		}
+
+}
+
 //渲染数据函数
 function setTable (data){
 
@@ -229,9 +233,9 @@ function setTable (data){
 	if(data.length == 1){
 		var tr;
 		if(totalMoney > 0){
-			 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+			 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 		}else{
-			 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+			 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 		}
 		$('#tableData').append(tr)
 	}
@@ -242,9 +246,9 @@ function setTable (data){
 			if(i == (data.length -1)){
 				var tr;
 				if(totalMoney > 0){
-					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 				}else{
-					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 				}
 				$('#tableData').append(tr)
 			}
@@ -252,9 +256,9 @@ function setTable (data){
 		}else{
 			var tr;
 			if(totalMoney > 0){
-				 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+				 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 			}else{
-				 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+				 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 			}
 			$('#tableData').append(tr)
 			
@@ -268,9 +272,9 @@ function setTable (data){
 			if(i == (data.length -1)){
 				var tr;
 				if(totalMoney > 0){
-					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="earn">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 				}else{
-					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
+					 tr = `<tr><td>${year}-${month}-${day}</td><td><span class="pay">${totalMoney.toFixed(2)}</span></td><td><button type="button" class="btn btn-primary moneyDetail" data-toggle="modal" data-target=".Modal" dataTime="${year}-${month}-${day}">详细</button></td></tr>`
 				}
 				$('#tableData').append(tr)
 			}
@@ -334,6 +338,7 @@ $('#addmoney_btn').click(()=>{
 			$('.typetip').html('');
 			$('.remarktip').html('');
 			$('.moneytip').html('');
+			$('#myModal1').modal('hide')
 			findMonthMoney(year,month,userData._id);
 		}
 	})

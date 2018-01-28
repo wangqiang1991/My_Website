@@ -25,42 +25,11 @@
 		 </ul>
 		</nav>
 
-		<!-- 金额录入div -->	
-		<div class="input_money">
-			<p class="title" id="time">当前时间:2017-12-27</p>
-			<div class="btn-group" data-toggle="buttons" id="payorget" style="margin-bottom: 5px;">
-			  <label class="btn btn-default" style="border-radius: 4px 0 0 4px;">
-			    <input type="radio" value="-1"> 支出
-			  </label>
-			  <label class="btn btn-default">
-			    <input type="radio" value="1"> 收入
-			  </label>
-			</div>
-			<p class="tip typetip"></p>
-			<div class="input-group">
-	  			<span class="input-group-addon">
-					备注
-	  			</span>
-	            <input type="text" class="form-control" placeholder="填写备注信息" aria-describedby="basic-addon1" id="remark">
-			</div>
-			<p class="tip remarktip"></p>
-			<div class="input-group">
-	  			<span class="input-group-addon">
-					金额
-	  			</span>
-	            <input type="number" class="form-control" placeholder="填写账单金额" aria-describedby="basic-addon1" id="money">
-			</div>
-			<p class="tip moneytip"></p>
-
-		   <div class="input-group" style="width: 100%;">
-			 <button type="button" class="btn btn-default" style="float: left;" id="cancel_btn">关闭</button>
-			 <button type="button" class="btn btn-primary" style="float: right;" id="addmoney_btn">确定</button>
-			</div>  
-		</div>
+		
 
 
 		<!-- 表格div -->
-		<div class="table-responsive" id="table">
+		<div class="table-responsive" id="table" style="margin-bottom: 0;">
 		  <table class="table table-hover" style="margin-bottom: 0;">
 		  	<div>
 				<p class="chocie_left">
@@ -91,7 +60,7 @@
 				  	<option value="12">12月</option>
 				  </select>
 				  <select id="day">
-				  	<option value=""></option>
+				  	<option value="">all</option>
 				  	<option value="1">1日</option>
 				  	<option value="2">2日</option>
 				  	<option value="3">3日</option>
@@ -126,9 +95,12 @@
 				  </select>
 				<button type="button" class="btn btn-primary" id="search">查询</button>	
 				</p>
-			    <p >年度消费: <span id="yaerPay">0</span></p>		
-				<p >月季消费: <span id="monthPay">0</span></p>
-				<p class="add_img"><img src="http://p1krs1tfn.bkt.clouddn.com/money_icon.png" alt="add_account" id="showInput"></p>
+			    <p >年度消费统计: 总收入: <span id="totalEarn">0</span>  总支出: <span id="totalPay">0</span>  合计: <span id="yaerPay">0</span>  </p>		
+				<p >月季消费统计: 总收入: <span id="totalMEarn">0</span>  总支出: <span id="totalMPay">0</span>  合计: <span id="monthPay">0</span></p>
+				
+				<button type="button" class="btn btn-default add_img" data-toggle="modal" data-target="#myModal1" id="showInput">
+				  <span class="glyphicon glyphicon-yen" aria-hidden="true"></span> 点我记账
+				</button>
 		  	</div>
 		    <thead>
 		      <tr>
@@ -170,6 +142,67 @@
 				    </tbody>
 		        </table>
 		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+		<!-- 	记账modal -->
+		<div class="modal fade"  id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel1">账单</h4>
+		      </div>
+
+		      <div class="modal-body" style="padding: 0;">
+				<div class="input_money">
+					<p class="title" id="time">当前时间:2017-12-27</p>
+					<div class="btn-group" data-toggle="buttons" id="payorget" style="margin-bottom: 5px;">
+					  <label class="btn btn-default" style="border-radius: 4px 0 0 4px;">
+					    <input type="radio" value="-1"> 支出
+					  </label>
+					  <label class="btn btn-default">
+					    <input type="radio" value="1"> 收入
+					  </label>
+					</div>
+					<p class="tip typetip"></p>
+					<div class="input-group" style="position: relative;">
+			  			<span class="input-group-addon">
+							备注
+			  			</span>
+			            <input type="text" class="form-control" placeholder="填写备注信息" aria-describedby="basic-addon1" id="remark">
+<!-- 
+			            <ul class="keywordtip showkeyword">
+			            	<li>早饭</li>
+			            	<li>午饭</li>
+			            	<li>晚饭</li>
+			            	<li>水果</li>
+			            	<li>夜宵</li>
+			            	<li>药</li>
+			            	<li>地铁</li>
+			            	<li>房租</li>
+			            </ul> -->
+
+					</div>
+					<p class="tip remarktip"></p>
+					<div class="input-group">
+			  			<span class="input-group-addon">
+							金额
+			  			</span>
+			            <input type="number" class="form-control" placeholder="填写账单金额" aria-describedby="basic-addon1" id="money">
+					</div>
+					<p class="tip moneytip"></p>
+				</div>	
+		      </div>
+
+		       <div class="modal-footer" style="padding: 10px 16px;">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 2px 15px;">关闭</button>
+		        <button type="button" class="btn btn-primary" id="addmoney_btn" style="padding: 2px 15px;">确定</button>
+		      </div>
+
 		    </div>
 		  </div>
 		</div>

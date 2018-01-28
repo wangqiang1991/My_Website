@@ -44,16 +44,34 @@ router.get("/findMonthMoney",function(req,res){
 	var resdata={};
 	indexDAO.findYearMoney(year,userId,function(data){
 		var yaerMoney = 0;
+		var yearPay = 0;
+		var yearEarn = 0;
 		for(var i = 0;i<data.length;i++){
 			yaerMoney += +data[i].money;
+			if(+data[i].money > 0){
+				yearEarn += +data[i].money;
+			}else{
+				yearPay += +data[i].money;
+			}
 		}
 		resdata.yaerMoney = yaerMoney;
+		resdata.yearPay = yearPay;
+		resdata.yearEarn = yearEarn;
 		indexDAO.findMonthMoney(year,month,userId,function(data){
 			var monthMOney = 0;
+			var monthPay = 0;
+			var monthEarn = 0;
 			for(var i = 0;i<data.length;i++){
 				monthMOney += +data[i].money;
+				if(+data[i].money > 0){
+					monthEarn += +data[i].money;
+				}else{
+					monthPay += +data[i].money;
+				}
 			}
 			resdata.monthMOney = monthMOney;
+			resdata.monthPay = monthPay;
+			resdata.monthEarn = monthEarn;
 			resdata.moneyData = data;
 			res.send(resdata)
 	    });
@@ -70,16 +88,34 @@ router.get("/findDayMoney",function(req,res){
 	var resdata={};
 	indexDAO.findYearMoney(year,userId,function(data){
 		var yaerMoney = 0;
+		var yearPay = 0;
+		var yearEarn = 0;
 		for(var i = 0;i<data.length;i++){
 			yaerMoney += +data[i].money;
+			if(+data[i].money > 0){
+				yearEarn += +data[i].money;
+			}else{
+				yearPay += +data[i].money;
+			}
 		}
 		resdata.yaerMoney = yaerMoney;
+		resdata.yearPay = yearPay;
+		resdata.yearEarn = yearEarn;
 		indexDAO.findMonthMoney(year,month,userId,function(data){
 			var monthMOney = 0;
+			var monthPay = 0;
+			var monthEarn = 0;
 			for(var i = 0;i<data.length;i++){
 				monthMOney += +data[i].money;
+				if(+data[i].money > 0){
+					monthEarn += +data[i].money;
+				}else{
+					monthPay += +data[i].money;
+				}
 			}
 			resdata.monthMOney = monthMOney;
+			resdata.monthPay = monthPay;
+			resdata.monthEarn = monthEarn;
 			indexDAO.findDayMoney(year,month,day,userId,function(data){
 				resdata.moneyData = data;
 				res.send(resdata)
