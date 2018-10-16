@@ -128,7 +128,7 @@ gulp.task('mobStatic',  function() {
 gulp.task('webserver', function () {
   gulp.src('./')
     .pipe(webserver({
-      host: 'localhost', //ip地址
+      host: '0.0.0.0', //ip地址
       port: 8000,  //端口
       livereload: true,  //f5刷新
       open: './src/pc/index.html', //启动打开文件
