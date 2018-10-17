@@ -9,10 +9,16 @@ var autoprefixer = require('gulp-autoprefixer'); //css自动添加兼容前缀
 var htmlminify = require('gulp-html-minify'); // html压缩
 var imagemin = require('gulp-imagemin'); //图片压缩
 var webserver = require('gulp-webserver'); //开启服务
+var plumber = require('gulp-plumber'); //gulp watch 监听异常处理
 
 // js的操作
 gulp.task('pcJs', function() {
     gulp.src('./src/pc/js/*.js')
+    .pipe(plumber({
+        errorHandler:function(error) {
+            this.emit('end');
+        }
+    }))
     .pipe(babel({  
         presets: ['env']  
     }))             //es6转es5
@@ -26,6 +32,11 @@ gulp.task('pcJs', function() {
 // css的操作
 gulp.task('pcCss', function() {
     gulp.src('./src/pc/scss/*.scss')
+    .pipe(plumber({
+        errorHandler:function(error) {
+            this.emit('end');
+        }
+    }))
     .pipe(sass())                      //转化sass
     .pipe(concat('main.css'))        // 合并    
     .pipe(autoprefixer({
@@ -67,10 +78,14 @@ gulp.task('pcStatic',  function() {
 });
 
 
-
 // js的操作
 gulp.task('mobJs', function() {
     gulp.src('./src/mobile/js/*.js')
+    .pipe(plumber({
+        errorHandler:function(error) {
+            this.emit('end');
+        }
+    }))
     .pipe(babel({  
         presets: ['env']  
     }))             //es6转es5
@@ -84,6 +99,11 @@ gulp.task('mobJs', function() {
 // css的操作
 gulp.task('mobCss', function() {
     gulp.src('./src/mobile/scss/*.scss')
+    .pipe(plumber({
+        errorHandler:function(error) {
+            this.emit('end');
+        }
+    }))
     .pipe(sass())                      //转化sass
     .pipe(concat('main.css'))        // 合并    
     .pipe(autoprefixer({
@@ -128,7 +148,7 @@ gulp.task('mobStatic',  function() {
 gulp.task('webserver', function () {
   gulp.src('./')
     .pipe(webserver({
-      host: '0.0.0.0', //ip地址
+      host: '0.0.0.0', //ip地址设置为0.0.0.0局域网可以访问
       port: 8000,  //端口
       livereload: true,  //f5刷新
       open: './src/pc/index.html', //启动打开文件
@@ -145,10 +165,9 @@ gulp.task('webserver', function () {
     }))
 });
 
-
-
 //执行任务
 gulp.task('pcDef', ['pcJs','pcCss','pcHtml','pcImg','pcStatic']);
+
 //执行任务
 gulp.task('mobDef', ['mobJs','mobCss','mobHtml','mobImg','mobStatic']);
 
@@ -163,5 +182,5 @@ gulp.task('watch',function(){
 //启动服务
 gulp.task('start',['webserver','watch'])
 
-/*打包所有任务*/
-gulp.task('default',['pcJs','pcCss','pcHtml','pcImg','pcStatic','mobJs','mobCss','mobHtml','mobImg','mobStatic']);
+/*默认任务*/
+gulp.task('default',['pcDef','mobDef']);
