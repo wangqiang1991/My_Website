@@ -9,18 +9,18 @@ router.get('/leaveMessage', function(req, res, next) {
   indexDAO.findMessage({},function(data){
 
     new Promise(function(resolve, reject){
-      let messageData = data;
+      var resultdata = data;
       indexDAO.findUser({},function(userData){
 
-        for (var i = 0; i < messageData.length; i++) {
+        for (var i = 0; i < resultdata.length; i++) {
           for (var j = 0; j < userData.length; j++) {
-            if(userData[j]._id == messageData[i].userId) {
-              messageData[i].userName = userData[j].username;
+            if(userData[j]._id == resultdata[i].userId) {
+              resultdata[i].userName = userData[j].username;
               break ;
             }
            } 
         }
-        resolve(messageData)
+        resolve(resultdata)
       })  
     }).then(function(data){
       res.send(data)  
@@ -36,14 +36,14 @@ router.post("/login",function(req,res){
   var passWord = req.query.passWord;
 
   indexDAO.login({},function(data){
-    let resultdata = data[0];
+    var resultdata = data[0];
     if (user == resultdata.user && passWord == resultdata.passWord) {
-      let obj = {};
+      var obj = {};
       obj.code = 0;
       obj.data = resultdata;
       res.send(obj);
     } else {
-      let errorObj = {};
+      var errorObj = {};
       errorObj.code = 1;
       errorObj.data = null;
       errorObj.message = '用户名或密码错误';
@@ -89,18 +89,19 @@ router.get('/findMonthAccount',function(req, res) {
   indexDAO.findMonthByPage(pageIndex,pageSize,option,function(data) {
 
     indexDAO.findMonthMoney(year,month,userId,function(monthData) {
-      let allPay = 0;
-      let allEarn = 0;
-      monthData.forEach((item)=>{
-        let money = +item.money;
+      var allPay = 0;
+      var allEarn = 0;
+
+      for (var i = 0; i < monthData.length; i++) {
+        var money = +monthData[i].money;
         if (money > 0) {
           allEarn += money;
         } else {
           allPay += money;
         }
-      })
+      }
 
-      let monthMoney = {};
+      var monthMoney = {};
       monthMoney.allEarn = allEarn;
       monthMoney.allPay = allPay;
       data.monthMoney = monthMoney;

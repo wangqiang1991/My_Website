@@ -69,8 +69,6 @@ export default {
         user:this.loginForm.loginName,
         passWord:md5(this.loginForm.password)
       }).request(function(response) {
-        
-        console.log(response)
 
         if(response.data.code != 0){
           this.$message.error(response.data.message);

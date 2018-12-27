@@ -20,7 +20,7 @@ router.post("/addMoney",function(req,res){
   var day = req.body.day;
   var time = req.body.time;
   var remark=req.body.remark;
-  var money=req.body.money;
+  var money= Number(req.body.money);
   var userId = req.body.userId;
   indexDAO.insertMoney(year,month,day,time,remark,money,userId,function(data){
     res.send("添加成功");

@@ -51,14 +51,14 @@
         <el-col :span="8">
           <div class="count">
             <p class="tip">{{time.year}}年度支出</p>
-            <p class="number" style="color:#f75151;">¥{{Math.abs(yearAccount.allPay)}}</p>
+            <p class="number" style="color:#f75151;">¥{{(Math.abs(yearAccount.allPay)).toFixed(2)}}</p>
           </div>
         </el-col>
 
         <el-col :span="8">
           <div class="count">
             <p class="tip">{{time.year}}年度收入</p>
-            <p class="number" style="color:#008000;">¥{{yearAccount.allEarn}}</p>
+            <p class="number" style="color:#008000;">¥{{(yearAccount.allEarn).toFixed(2)}}</p>
           </div>
         </el-col>
 
@@ -91,14 +91,14 @@
         <el-col :span="8">
           <div class="count">
             <p class="tip">{{time.year}}年{{time.month}}月支出</p>
-            <p class="number" style="color:#f75151;">¥{{Math.abs(monthAccount.allPay)}}</p>
+            <p class="number" style="color:#f75151;">¥{{(Math.abs(monthAccount.allPay)).toFixed(2)}}</p>
           </div>
         </el-col>
 
         <el-col :span="8">
           <div class="count">
             <p class="tip">{{time.year}}年{{time.month}}月收入</p>
-            <p class="number" style="color:#008000;">¥{{monthAccount.allEarn}}</p>
+            <p class="number" style="color:#008000;">¥{{(monthAccount.allEarn).toFixed(2)}}</p>
           </div>
         </el-col>
 
@@ -324,8 +324,8 @@ export default {
             }
 
           })
-          earnData.push(monthEarn);
-          payData.push(Math.abs(monthPay))
+          earnData.push(monthEarn.toFixed(2));
+          payData.push((Math.abs(monthPay)).toFixed(2))
         })
 
         this.yearAccount.earnData = earnData;
