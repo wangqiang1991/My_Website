@@ -82,6 +82,17 @@
           placeholder="选择查询月份">
         </el-date-picker>
 
+        <el-select  v-model="query.type" clearable filterable placeholder="请选择查询金额类型">
+          <el-option
+            v-for="item in selectTypeData"
+            :key="item.type"
+            :label="item.name"
+            :value="item.type">
+          </el-option>
+        </el-select>
+
+        <el-input @keyup.enter.native="doSearch()" v-model="query.money" type='number' style='width:150px;' placeholder="输入查询金额"></el-input>
+
         <el-button style="margin-left: 12px;" type="primary" icon="el-icon-search" @click="doSearch">查询</el-button>
 
       </div>
@@ -144,7 +155,7 @@
           label="金额">
           <template slot-scope="scope">
             <span style="color: green;" v-if='+scope.row.money > 0'>¥{{ scope.row.money }}</span>
-            <span style="color: #f75151;" v-else>¥{{ scope.row.money.slice(1) }}</span>
+            <span style="color: #f75151;" v-else>¥{{ (scope.row.money + '').slice(1) }}</span>
           </template>
         </el-table-column>
 
@@ -196,8 +207,7 @@ export default {
     return {
       chart:null,
       chartInit:true,
-      data1: [100, 120, 161, 134, 105, 160, 165],
-      data2: [120, 82, 91, 154, 162, 0, 0],
+      selectTypeData:[{type:1,name:'收入大于'},{type:2,name:"支出大于"}],
       lastYear:null,
       dialogVisible:false,
       userId:null,
@@ -213,6 +223,8 @@ export default {
         data:[]
       },
       query:{
+        type:null,
+        money:null,
         loading:true,
         year:null,
         month:null,
@@ -236,9 +248,6 @@ export default {
     }
   },
   mounted() {
-    // echarts.registerTheme('dark', echartTheme);
-    // this.chart = echarts.init(document.getElementById('chart1'),'dark');
-    // this.setChar(this.data1,this.data2);
     this.findUser();
     let time = new Date();
     this.time.defaultYear = time.getFullYear();
@@ -259,6 +268,8 @@ export default {
     reset() {
       this.time.value = null;
       this.query.pageIndex = 1;
+      this.query.type = null;
+      this.query.money = null;
     },
     loadUserDetail(userData) {
       this.dialogVisible = true;
@@ -368,8 +379,25 @@ export default {
       params.pageSize = this.query.pageSize;
       this.time.year = year;
       this.time.month = month;
-      this.monthAccount.loading = true;
 
+      if (!this.query.type) {
+        params.type = 0;
+      } else {
+        if (!this.query.money || Number(this.query.money) <= 0 ) {
+          this.$message({type:'warning',message:"金额不能为空且不为负"});
+          return ;
+        } else {
+          if (this.query.type == 1) {
+            params.type = 1;
+            params.money = Number(this.query.money);
+          } else if (this.query.type == 2) {
+            params.type = 2;
+            params.money = Number(this.query.money);
+          }
+        }
+      }
+
+      this.monthAccount.loading = true;
       this.http.get(this).url(this.config.findMonthAccount).params(params).request(function(response) {
         
         this.monthAccount.data = response.data.data;

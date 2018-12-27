@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target:'http://192.168.20.102:3000/',
+        target:'http://192.168.20.102:8888/',
         //target: 'https://admin.goochao.com/',
         //target: 'http://test.wx.goochao.com/',
         changeOrigin: true,

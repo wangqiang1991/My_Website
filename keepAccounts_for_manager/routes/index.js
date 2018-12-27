@@ -80,11 +80,20 @@ router.get('/findMonthAccount',function(req, res) {
   var userId = req.query.userId;
   var year = req.query.year;
   var month = req.query.month;
+  var type = req.query.type; // 0 不查询 1查询收入大于 2查询支出大于
 
   var option = {};
   option.year = year;
   option.month = month;
   option.userId = userId;
+
+  if (type == '1') {
+    var money  = Number(req.query.money);
+    option.money = {"$gt":money};
+  } else if (type == '2') {
+    var money  = Number(req.query.money) * -1;
+    option.money = {"$lt":money};
+  }
 
   indexDAO.findMonthByPage(pageIndex,pageSize,option,function(data) {
 
