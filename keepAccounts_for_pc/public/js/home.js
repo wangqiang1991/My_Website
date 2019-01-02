@@ -68,7 +68,7 @@ if(session_user == 'home' || session_user == 'contact'){
 }
 
 //提交建议
-$('#submit').click(function(){
+$('#submit_contact').click(function(){
 	let content = $('#contact_content').val();
 	if(content == '' || content == null){
 		$('.tip').html('内容不能为空');
@@ -85,7 +85,7 @@ $('#submit').click(function(){
 		success:()=>{
 			$('.tip').html('成功提交');
 			$('.tip').css({'color':'green'});
-			$('#submit').hide();
+			$('#submit_contact').hide();
 		}
 	})
 })

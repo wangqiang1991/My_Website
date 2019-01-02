@@ -8,9 +8,15 @@ var indexDAO=require("../dao/homeDao.js");
 router.get("/contactme",function(req,res){
 	var userId = req.query.userId;
 	var contact = req.query.contact;
-	indexDAO.contactme(userId,contact,function(){
-		res.send('success')
-	});
+	
+	if (!userId || userId == "null") {
+		res.send('userId is null');
+	} else {
+		indexDAO.contactme(userId,contact,function(){
+			res.send('success');
+		});		
+	}
+
 })
 
 //添加记账
